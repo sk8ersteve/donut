@@ -20,16 +20,6 @@ const theta_step: f64 = 0.007;
 const phi_step: f64 = 0.002;
 
 #[wasm_bindgen]
-pub fn gsin(x: f64) -> f64 {
-    x.sin()
-}
-
-#[wasm_bindgen]
-pub fn gcos(x: f64) -> f64 {
-    x.cos()
-}
-
-#[wasm_bindgen]
 pub struct Screen {
     w: usize,
     h: usize,
@@ -117,10 +107,8 @@ impl Screen {
                     if ooz > zbuffer[idx] {
                         zbuffer[idx] = ooz;
                         let L = L / 2.0f64.sqrt();
-                        // let L = (255.0 * L / 2.0f64.sqrt()) as u8;
                         let (r, g, b, a) = self.donut_color;
                         self.screen[idx] = ((r * L) as u8, (g * L) as u8, (b * L) as u8, a);
-                        // self.screen[idx] = (L, L, L, 255);
                     }
                 }
                 phi += phi_step;
