@@ -35,7 +35,6 @@ async function run() {
     screen.draw_donut(A, B, r, g, b, 255);
     console.log("First donut drawn. Displaying to canvas");
     ctx.putImageData(imgData, 0, 0);
-    set_dims(800, 600);
 
     const renderLoop = () => {
         // Cycle through color
@@ -57,8 +56,8 @@ async function run() {
         }
 
         // Spin donut
-        A += 0.01;
-        B += 0.01;
+        A += 0.04;
+        B += 0.04;
         if (A > 6.28)
             A = 0.0;
         if (B > 6.28)

@@ -16,8 +16,8 @@ const R1: f64 = 1.0;
 const R2: f64 = 2.0;
 const K2: f64 = 5.0; // Distance from camera to donut
 
-const theta_step: f64 = 0.017;
-const phi_step: f64 = 0.005;
+const theta_step: f64 = 0.007;
+const phi_step: f64 = 0.002;
 
 #[wasm_bindgen]
 pub struct Screen {
