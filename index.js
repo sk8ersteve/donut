@@ -24,6 +24,8 @@ async function run() {
     const buff = new Uint8ClampedArray(wasm.memory.buffer, screen.get_screen(), 4 * width * height);
     const imgData = new ImageData(buff, width);
 
+    screen.set_donut_color(r, g, b, 255);
+    screen.draw_donut(A, B);
     ctx.putImageData(imgData, 0, 0);
 
     const renderLoop = () => {
