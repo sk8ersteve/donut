@@ -11,20 +11,22 @@ export class Screen {
 */
   static new(w: number, h: number): Screen;
 /**
-* @param {number} r
-* @param {number} g
-* @param {number} b
-* @param {number} a
+* @param {number} w
+* @param {number} h
 */
-  set_donut_color(r: number, g: number, b: number, a: number): void;
+  change_size(w: number, h: number): void;
 /**
 */
   draw_circle(): void;
 /**
 * @param {number} A
 * @param {number} B
+* @param {number} r
+* @param {number} g
+* @param {number} b
+* @param {number} a
 */
-  draw_donut(A: number, B: number): void;
+  draw_donut(A: number, B: number, r: number, g: number, b: number, a: number): void;
 /**
 * @returns {number}
 */
@@ -41,9 +43,9 @@ export interface InitOutput {
   readonly memory: WebAssembly.Memory;
   readonly __wbg_screen_free: (a: number) => void;
   readonly screen_new: (a: number, b: number) => number;
-  readonly screen_set_donut_color: (a: number, b: number, c: number, d: number, e: number) => void;
+  readonly screen_change_size: (a: number, b: number, c: number) => void;
   readonly screen_draw_circle: (a: number) => void;
-  readonly screen_draw_donut: (a: number, b: number, c: number) => void;
+  readonly screen_draw_donut: (a: number, b: number, c: number, d: number, e: number, f: number, g: number) => void;
   readonly screen_get_screen: (a: number) => number;
   readonly screen_get_K1: (a: number) => number;
 }

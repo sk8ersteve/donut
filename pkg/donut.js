@@ -48,13 +48,11 @@ export class Screen {
         return Screen.__wrap(ret);
     }
     /**
-    * @param {number} r
-    * @param {number} g
-    * @param {number} b
-    * @param {number} a
+    * @param {number} w
+    * @param {number} h
     */
-    set_donut_color(r, g, b, a) {
-        wasm.screen_set_donut_color(this.ptr, r, g, b, a);
+    change_size(w, h) {
+        wasm.screen_change_size(this.ptr, w, h);
     }
     /**
     */
@@ -64,9 +62,13 @@ export class Screen {
     /**
     * @param {number} A
     * @param {number} B
+    * @param {number} r
+    * @param {number} g
+    * @param {number} b
+    * @param {number} a
     */
-    draw_donut(A, B) {
-        wasm.screen_draw_donut(this.ptr, A, B);
+    draw_donut(A, B, r, g, b, a) {
+        wasm.screen_draw_donut(this.ptr, A, B, r, g, b, a);
     }
     /**
     * @returns {number}

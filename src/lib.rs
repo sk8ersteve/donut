@@ -16,8 +16,8 @@ const R1: f64 = 1.0;
 const R2: f64 = 2.0;
 const K2: f64 = 5.0; // Distance from camera to donut
 
-const theta_step: f64 = 0.007;
-const phi_step: f64 = 0.002;
+const theta_step: f64 = 0.017;
+const phi_step: f64 = 0.005;
 
 #[wasm_bindgen]
 pub struct Screen {
@@ -25,7 +25,6 @@ pub struct Screen {
     h: usize,
     K1: f64, // Distance from camera
     screen: Vec<(u8, u8, u8, u8)>,
-    donut_color: (f64, f64, f64, u8),
 }
 
 #[wasm_bindgen]
@@ -37,12 +36,14 @@ impl Screen {
             h,
             K1: (min(w, h) as f64) * K2 * 3.0 / (8.0 * (R1 + R2)),
             screen,
-            donut_color: (255.0, 255.0, 255.0, 255),
         }
     }
 
-    pub fn set_donut_color(&mut self, r: u8, g: u8, b: u8, a: u8) {
-        self.donut_color = (r as f64, g as f64, b as f64, a);
+    pub fn change_size(&mut self, w: usize, h: usize) {
+        self.w = w;
+        self.h = h;
+        self.K1 = (min(w, h) as f64) * K2 * 3.0 / (8.0 * (R1 + R2));
+        self.screen = vec![(0, 0, 0, 255); w * h];
     }
 
     pub fn draw_circle(&mut self) {
@@ -68,7 +69,7 @@ impl Screen {
         }
     }
 
-    pub fn draw_donut(&mut self, A: f64, B: f64) {
+    pub fn draw_donut(&mut self, A: f64, B: f64, r: u8, g: u8, b: u8, a: u8) {
         let cosA = A.cos();
         let sinA = A.sin();
         let cosB = B.cos();
@@ -86,11 +87,17 @@ impl Screen {
                 let sinphi = phi.sin();
 
                 let circlex = 2.0 + costheta;
-                let circley = sintheta;
 
-                let x = circlex * (cosB * cosphi + sinA * sinB * sinphi) - circley * cosA * sinB;
-                let y = circlex * (sinB * cosphi - sinA * cosB * sinphi) + circley * cosA * cosB;
-                let z = K2 + cosA * circlex * sinphi + circley * sinA;
+                let cosAsintheta = cosA * sintheta;
+                let sinAsintheta = sinA * sintheta;
+                let cosAsinphi = cosA * sinphi;
+                let sinAsinphi = sinA * sinphi;
+                let sinBcosphi = sinB * cosphi;
+                let costhetasinphi = costheta * sinphi;
+
+                let x = circlex * (cosB * cosphi + sinAsinphi * sinB) - cosAsintheta * sinB;
+                let y = circlex * (sinB * cosphi - sinAsinphi * cosB) + cosAsintheta * cosB;
+                let z = K2 + cosAsinphi * circlex + sinAsintheta;
                 // let x = circlex * cosphi;
                 // let y = circley;
                 // let z = K2 + circlex * sinphi;
@@ -100,15 +107,14 @@ impl Screen {
                 let yp = (self.h as f64 / 2.0 + (self.K1 * ooz * y)) as usize;
 
                 // let L = sintheta - sinphi * costheta;
-                let L = cosphi * costheta * sinB - cosA * costheta * sinphi
-                    - sinA * sintheta + cosB * (cosA * sintheta - costheta * sinA * sinphi);
-                if L > 0.0 {
+                let L = sinBcosphi * costheta - cosA * costhetasinphi
+                    - sinAsintheta + cosB * (cosA * sintheta - costhetasinphi * sinA);
+                if L > -0.5 {
                     let idx = self.w * yp + xp;
                     if ooz > zbuffer[idx] {
                         zbuffer[idx] = ooz;
                         let L = L / 2.0f64.sqrt();
-                        let (r, g, b, a) = self.donut_color;
-                        self.screen[idx] = ((r * L) as u8, (g * L) as u8, (b * L) as u8, a);
+                        self.screen[idx] = ((r as f64 * L) as u8, (g as f64 * L) as u8, (b as f64 * L) as u8, a);
                     }
                 }
                 phi += phi_step;
