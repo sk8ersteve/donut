@@ -33,6 +33,7 @@ async function run() {
     var imgData = new ImageData(buff, width);
 
     screen.draw_donut(A, B, r, g, b, 255);
+    console.log("First donut drawn. Displaying to canvas");
     ctx.putImageData(imgData, 0, 0);
     set_dims(800, 600);
 
