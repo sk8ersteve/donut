@@ -1,12 +1,37 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
   <head>
     <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="wasm+canvas rendered donut!">
+    <meta name="author" content="Stephen Thomas-Dorin">
+
+    <link rel="stylesheet" href="css/custom.css">
+    <!-- <script src="js/custom.js"></script> -->
+
     <title>Donut!</title>
   </head>
   <body>
+    <header>
+      <h1>Donut!</h1>
+      <p>
+      <a href = "https://sk8ersteve.com">&lt; Back to sk8ersteve.com</a>
+      </p>
+    </header>
+    <p>
+      I had just heard about rust+wasm shortly after getting into rust and I
+      remembered
+      <a href="https://youtu.be/DEqXNfs_HhY">this</a>
+      video by Lex Fridman. I drew inspiration and decided to make a rendered
+      donut as my first project.
+    </p>
     <script type="module" src="index.js"></script>
     <noscript>This page contains webassembly and javascript content, please enable javascript in your browser.</noscript>
     <canvas id="canvas"></canvas>
+    <p>
+      I don't think this method is terribly efficient and I'm not even sure if
+      it's more performant than it would be if I wrote it all in JavaScript,
+      but it was fun to complete and it works (at least on my setup :P).
+    </p>
   </body>
 </html>
