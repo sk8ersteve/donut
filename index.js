@@ -3,7 +3,8 @@ import init, { Screen } from './pkg/donut.js';
 // script must be loaded as module for this to work
 let wasm = await init();
 
-var width = 600;
+var width = (window.innerWidth < 650) ? window.innerWidth : 650;
+width -= 20;
 var height = 400;
 var changed = false;
 

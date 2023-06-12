@@ -56,7 +56,7 @@ impl Screen {
             let cosphi = phi.cos();
             let sinphi = phi.sin();
 
-            let circlex = 2.0 + costheta;
+            let circlex = R2 + costheta;
             let circley = sintheta;
 
             let x = circlex * cosphi;
